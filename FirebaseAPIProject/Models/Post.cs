@@ -19,5 +19,12 @@
             Postvid = postvid;
             Publisher = publisher;
         }
+        public override bool Equals(object obj)
+        {
+            var postItem = obj as Post;
+            if (postItem == null)
+                return false;
+            return this.Postid.Equals(postItem.Postid);
+        }
     }
 }

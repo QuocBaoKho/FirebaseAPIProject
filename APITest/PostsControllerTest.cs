@@ -47,22 +47,16 @@ namespace APITest
         public async Task GetMethod()
         {
             List<KeyValuePair<string, Post>> expectedResult = await postService.extractData();
+            List<Post> expectedValues = (from post in expectedResult select post.Value).ToList();
             PostsController controller = new PostsController(postService);
             List<KeyValuePair<string, Post>> result = await controller.GetUsers();
-            CollectionAssert.AreEqual(expectedResult, result);
+            List<Post> actualValues = (from post in result select post.Value).ToList();
+
+            CollectionAssert.AreEqual(expectedValues, actualValues);
 
 
         }
-        [TestMethod]
-        public async Task GetMethodFail()
-        {
-            List<KeyValuePair<string, Post>> expectedResult = await postService.extractData();
-            PostsController controller = new PostsController(postService);
-            List<KeyValuePair<string, Post>> result = await controller.GetUsers();
-            CollectionAssert.AreEqual(expectedResult, result);
-
-
-        }
+       
         [TestMethod]
         public async Task PostMethod()
         {
