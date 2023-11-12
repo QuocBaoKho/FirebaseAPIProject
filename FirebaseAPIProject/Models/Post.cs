@@ -9,6 +9,15 @@
         public string Postimage { get; set; }
         public string Postvid { get; set; }
         public string Publisher { get; set; }
-
+        public Post(long createdTime, string description, string postType, string postid, string postimage, string postvid, string publisher)
+        {
+            CreatedTime = createdTime;
+            Description = description;
+            PostType = postType;
+            Postid = postid;
+            Postimage = postimage;
+            Postvid = postvid;
+            Publisher = publisher;
+        }
     }
 }

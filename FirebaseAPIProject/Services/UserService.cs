@@ -13,6 +13,10 @@ namespace FirebaseAPIProject.Services
         {
             client = new FirebaseClient(dbURL);
         }
+        public UserService(FirebaseClient client)
+        {
+            this.client = client;  
+        }
         public async Task addUser(User user)
         {
             await client.Child("Users").PostAsync(user);
@@ -21,6 +25,12 @@ namespace FirebaseAPIProject.Services
         {
             var user = await client.Child("Users").OnceAsync<User>();
             return user?.Select(x => new KeyValuePair<string, User>(x.Key, x.Object)).ToList();
+        }
+        public async Task<User> getUserviaID(string id)
+        {
+            var user = await client.Child("Users").Child(id).OnceSingleAsync<User>();
+            return user;
+
         }
     }
 }
