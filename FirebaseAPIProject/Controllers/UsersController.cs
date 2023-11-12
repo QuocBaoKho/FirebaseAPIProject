@@ -50,5 +50,10 @@ namespace FirebaseAPIProject.Controllers
             var users = await userService.extractData();
             return users;
         }
+        [HttpPost("NewUser")]
+        public async Task addNewUser(User user)
+        {
+            await userService.addUser(user);
+        }
     }
 }

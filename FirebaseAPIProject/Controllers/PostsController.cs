@@ -1,4 +1,5 @@
-﻿using FirebaseAPIProject.Models;
+﻿using Firebase.Database;
+using FirebaseAPIProject.Models;
 using FirebaseAPIProject.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,11 @@ namespace FirebaseAPIProject.Controllers
         {
             postService = new PostService();
         }
+        public PostsController(PostService postService)
+        {
+            this.postService = postService;
+        }
+
         // GET: api/<PostsController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -52,6 +58,38 @@ namespace FirebaseAPIProject.Controllers
         {
             var posts = await postService.extractData();
             return posts;
+        }
+        [HttpPut("PutNewPost")]
+        public async Task<ActionResult<Post>> UpdatePost(string id, Post post)
+        {
+            try
+            {
+                await postService.putNew(id, post);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            }
+        [HttpPost("Post")]
+        public async Task<ActionResult<Post>> PostNewPost(Post post)
+        {
+            try
+            {
+                if(post == null)
+                {
+                    return BadRequest();
+                }
+                var newPost = await postService.postNew(post);
+                return newPost == null ? NotFound() : Ok(newPost);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            
+           
         }
     }
 }
