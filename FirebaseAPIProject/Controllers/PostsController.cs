@@ -16,10 +16,11 @@ namespace FirebaseAPIProject.Controllers
         {
             postService = new PostService();
         }
-        public PostsController(PostService postService)
-        {
-            this.postService = postService;
-        }
+        //public PostsController(PostService postService)
+        //{
+           
+          //  this.postService = postService;
+        //}
 
         // GET: api/<PostsController>
         [HttpGet]
@@ -54,10 +55,25 @@ namespace FirebaseAPIProject.Controllers
         }
         [HttpGet("Lavisto")]
 
-        public async Task<List<KeyValuePair<string, Post>>> GetUsers()
+        public async Task<List<Post>> GetPosts()
         {
             var posts = await postService.extractData();
-            return posts;
+            List<Post> actualValues = (from post in posts select post.Value).ToList();
+            return actualValues;
+        }
+        [HttpGet("viaID")]
+        public async Task<Post> GetPostViaID(string ID)
+        {
+            try
+            {
+                var posts = await postService.extractData();
+                Post actualValues = (from post in posts where post.Key == ID select post.Value).FirstOrDefault();
+                return actualValues;
+            }catch(Exception e)
+            {
+                throw new Exception();
+            }
+            
         }
         [HttpPut("PutNewPost")]
         public async Task<ActionResult<Post>> UpdatePost(string id, Post post)
@@ -71,7 +87,7 @@ namespace FirebaseAPIProject.Controllers
             {
                 return BadRequest();
             }
-            }
+        }
         [HttpPost("Post")]
         public async Task<ActionResult<Post>> PostNewPost(Post post)
         {
