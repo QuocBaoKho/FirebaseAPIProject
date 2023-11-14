@@ -9,7 +9,7 @@ namespace FirebaseAPIProject.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        UserService userService;
+        public UserService userService;
         public UsersController()
         {
             userService = new UserService();
@@ -46,14 +46,48 @@ namespace FirebaseAPIProject.Controllers
         {
         }
         [HttpGet("Lavisto")]
-        public async Task<List<KeyValuePair<string, User>>> GetUsers() { 
+        public async Task<List<User>> GetUsers() { 
             var users = await userService.extractData();
-            return users;
+            var realUsers = (from user in users select user.Value).ToList();
+            return realUsers;
+        }
+        [HttpGet("viaID")]        
+        public async Task<User> GetUserViaID(string ID)
+        {
+            var users = await userService.extractData();
+            var IDuser = (from user in users where user.Key == ID select user.Value ).FirstOrDefault();
+            return IDuser;
         }
         [HttpPost("NewUser")]
-        public async Task addNewUser(User user)
+        public async Task<ActionResult<User>> addNewUser(User user)
         {
-            await userService.addUser(user);
+            try
+            {
+                if (user != null)
+                {
+                    var newUser = await userService.addUser(user);
+                    return newUser is null?BadRequest():Ok(newUser);
+                }
+                return BadRequest();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            
+         }
+        [HttpPut("PutNewUsers")]
+        public async Task<ActionResult<Post>> UpdateUser(string id, User user)
+        {
+            try
+            {
+                await userService.putNew(id, user);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }

@@ -17,9 +17,9 @@ namespace FirebaseAPIProject.Services
         {
             this.client = client;  
         }
-        public async Task addUser(User user)
+        public async Task<FirebaseObject<User>> addUser(User user)
         {
-            await client.Child("Users").PostAsync(user);
+           return  await client.Child("Users").PostAsync(user);
         }
         public async Task<List<KeyValuePair<string, User>>> extractData()
         {
@@ -30,6 +30,11 @@ namespace FirebaseAPIProject.Services
         {
             var user = await client.Child("Users").Child(id).OnceSingleAsync<User>();
             return user;
+
+        }
+        public async Task putNew(string id, User user)
+        {
+            await client.Child("Users").Child(id).PutAsync(user);
 
         }
     }

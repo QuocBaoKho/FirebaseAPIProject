@@ -23,7 +23,7 @@ namespace APITest
         [TestMethod]
         public void PostRetrievalTest() {
             PostsController postsController = new PostsController();
-            Assert.IsNotNull(postsController.GetUsers(), "YAH YAH");
+            Assert.IsNotNull(postsController.GetPosts(), "YAH YAH");
         
         }
     }

@@ -14,6 +14,10 @@ namespace FirebaseAPIProject.Services
         }
         public PostService(FirebaseClient _client)
         {
+            if(_client is null)
+            {
+                _client = new FirebaseClient(dbURL);
+            }
             client = _client;
         }
         public async Task<FirebaseObject<Post>> postNew(Post post)
@@ -32,6 +36,7 @@ namespace FirebaseAPIProject.Services
             var posts = await client.Child("Posts").OnceAsync<Post>();
             return posts.Select(x => new KeyValuePair<string, Post>(x.Key, x.Object)).ToList();
         }
+        
     }
 }
 
