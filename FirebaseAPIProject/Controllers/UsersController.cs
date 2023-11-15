@@ -14,37 +14,7 @@ namespace FirebaseAPIProject.Controllers
         {
             userService = new UserService();
         }
-        // GET: api/<UsersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<UsersController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<UsersController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
         [HttpGet("Lavisto")]
         public async Task<List<User>> GetUsers() { 
             var users = await userService.extractData();
@@ -66,7 +36,7 @@ namespace FirebaseAPIProject.Controllers
                 if (user != null)
                 {
                     var newUser = await userService.addUser(user);
-                    return newUser is null?BadRequest():Ok(newUser);
+                    return newUser is null? NotFound() : Ok(newUser);
                 }
                 return BadRequest();
             }
@@ -77,17 +47,23 @@ namespace FirebaseAPIProject.Controllers
             
          }
         [HttpPut("PutNewUsers")]
-        public async Task<ActionResult<Post>> UpdateUser(string id, User user)
+        public async Task<ActionResult<User>> UpdateUser(string id, User user)
         {
             try
             {
-                await userService.putNew(id, user);
-                return Ok();
+                string result = await userService.putNew(id, user);
+                return result == null? NotFound() : Ok();
             }
             catch
             {
                 return BadRequest();
             }
+        }
+        [HttpDelete]
+        public async Task<ActionResult<string>> DeleteUser(string id)
+        {
+            string y = await userService.deleteUser(id);
+            return y == null ? Ok(y) : BadRequest();
         }
     }
 }

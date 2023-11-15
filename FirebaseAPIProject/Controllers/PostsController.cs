@@ -22,37 +22,6 @@ namespace FirebaseAPIProject.Controllers
           //  this.postService = postService;
         //}
 
-        // GET: api/<PostsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<PostsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<PostsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<PostsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PostsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
         [HttpGet("Lavisto")]
 
         public async Task<List<Post>> GetPosts()
@@ -80,8 +49,8 @@ namespace FirebaseAPIProject.Controllers
         {
             try
             {
-                await postService.putNew(id, post);
-                return Ok();
+                var result = await postService.putNew(id, post);
+                return result == null? NotFound(): Ok();
             }
             catch
             {
@@ -106,6 +75,12 @@ namespace FirebaseAPIProject.Controllers
             }
             
            
+        }
+        [HttpDelete]
+        public async Task<ActionResult<string>> DeletePost(string id)
+        {
+            string key = await postService.DeletePost(id);
+            return key == null ? Ok(key) : BadRequest();
         }
     }
 }

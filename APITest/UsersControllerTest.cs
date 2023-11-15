@@ -10,6 +10,7 @@ using FirebaseAPIProject.Services;
 using Firebase.Database;
 using FirebaseAPIProject.Models;
 using Microsoft.AspNetCore.Http;
+using Firebase.Database.Query;
 
 namespace APITest
 {
@@ -78,6 +79,20 @@ namespace APITest
             var objectResult = GetStatusCode(result);
             Assert.IsInstanceOfType(result.Result, typeof(OkResult));
             Assert.AreEqual(StatusCodes.Status200OK, objectResult);
+        }
+        [TestMethod]
+        public async Task DeleteMethod()
+        {
+            User x = new User(0, "I'm a man", "x@gmail.com", "", "wes", "", "", "", "", "");
+            FirebaseClient client = new FirebaseClient(testLink);
+            UsersController controller = new UsersController();
+            controller.userService = userService;
+            await client.Child("Users").PostAsync(x);
+            var data = await userService.extractData();
+            var key = (from user in data where user.Value.Id == x.Id select user.Key).FirstOrDefault();
+            var result = await controller.DeleteUser(key);
+            var objectResult = GetStatusCode(result);
+            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
         }
 
     }
