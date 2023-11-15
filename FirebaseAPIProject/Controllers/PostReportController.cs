@@ -1,48 +1,56 @@
 ﻿using Firebase.Database;
-using Firebase.Database.Query;
 using FirebaseAPIProject.Models;
+using FirebaseAPIProject.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FirebaseAPIProject.Controllers
 {
-    [Route("api/posts")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PostReportController : ControllerBase
     {
-        private readonly FirebaseClient _firebaseClient;
+        public PostReportService postReportService;
 
-        public PostReportController(FirebaseClient firebaseClient)
+        public PostReportController()
         {
-            _firebaseClient = firebaseClient;
+            postReportService = new PostReportService();
         }
 
-        [HttpPost("{postId}/report")]
-        public ActionResult<string> ReportPost(string postId, [FromBody] PostReport postReport)
+        [HttpGet]
+        public IEnumerable<string> Get()
         {
-            // Gửi báo cáo đến Firebase Realtime Database
-            var reportsRef = _firebaseClient.Child("posts").Child(postId).Child("reports");
-            reportsRef.PostAsync(postReport);
-
-            // Trả về thông báo thành công nếu không có lỗi
-            return Ok("Báo cáo đã được gửi thành công!");
+            return new string[] { "value1", "value2" };
         }
 
-        [HttpGet("{postId}/reports")]
-        public async Task<ActionResult<PostReport[]>> GetPostReports(string postId)
+        [HttpPost]
+        public async Task<IActionResult> AddPostReport(PostReport postReport)
         {
-            // Đọc dữ liệu báo cáo từ Firebase Realtime Database
-            var reportsRef = _firebaseClient.Child("posts").Child(postId).Child("reports");
-            var reportsSnapshot = await reportsRef.OnceAsync<PostReport>();
-
-            var postReports = new List<PostReport>();
-            foreach (var reportSnapshot in reportsSnapshot)
+            try
             {
-                var postReport = reportSnapshot.Object;
-                postReports.Add(postReport);
+                if (postReport != null)
+                {
+                    var newPostReport = await postReportService.addPostReport(postReport);
+                    return Ok(newPostReport);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
 
-            // Trả về danh sách báo cáo
-            return Ok(postReports.ToArray());
+        [HttpGet("ExtractData")]
+        public async Task<List<PostReport>> ExtractData()
+        {
+            var postReports = await postReportService.extractData();
+            var realPostReports = (from postReport in postReports select postReport.Value).ToList();
+            return realPostReports;
         }
     }
 }
