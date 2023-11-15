@@ -19,7 +19,13 @@ namespace FirebaseAPIProject.Services
         }
         public async Task<FirebaseObject<User>> addUser(User user)
         {
-           return  await client.Child("Users").PostAsync(user);
+           var x =  await client.Child("Users").PostAsync(user);
+            var data = await extractData();
+            var user1 = (from e in data where e.Value.Id == user.Id select e.Value).FirstOrDefault();
+            var key = (from e in data where e.Value.Id == user.Id select e.Key).FirstOrDefault();
+            user1.Id = key;
+            await putNew(key, user1);
+            return x;
         }
         public async Task<List<KeyValuePair<string, User>>> extractData()
         {
@@ -32,10 +38,20 @@ namespace FirebaseAPIProject.Services
             return user;
 
         }
-        public async Task putNew(string id, User user)
+        public async Task<string> putNew(string id, User user)
         {
             await client.Child("Users").Child(id).PutAsync(user);
+            var data = await extractData();
+            var key = (from e in data where e.Value.Id == user.Id select e.Key).FirstOrDefault();
+            return key;
 
+        }
+        public async Task<string> deleteUser(string id)
+        {
+            await client.Child("Users").Child(id).DeleteAsync();
+            var data = await extractData();
+            var key = (from e in data where e.Value.Id == id select e.Key).FirstOrDefault();
+            return key;
         }
     }
 }

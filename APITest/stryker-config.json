@@ -1,0 +1,25 @@
+{
+    "stryker-config": {
+        "solution": "../FirebaseAPIProject.sln",
+        "project": "FirebaseAPIProject.csproj",
+        "mutate": [
+            "!Program.cs",
+            "!WeatherForecast.cs"
+
+        ],
+        "reporters": [
+            "html",
+            "json",
+            "progress"
+        ]
+    },
+    
+    "exclude": [
+        "**/bin",
+        "**/bower_components",
+        "**/jspm_packages",
+        "**/node_modules",
+        "**/obj",
+        "**/platforms"
+    ]
+}
