@@ -25,7 +25,7 @@ namespace FirebaseAPIProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPostReport(PostReport postReport)
+        public async Task<ActionResult <PostReport>> AddPostReport(PostReport postReport)
         {
             try
             {
