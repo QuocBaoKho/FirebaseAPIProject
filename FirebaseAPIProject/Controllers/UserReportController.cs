@@ -20,14 +20,14 @@ namespace FirebaseAPIProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUserReport(UserReport userReport)
+        public async Task<ActionResult<UserReport>> AddUserReport(UserReport userReport)
         {
             var result = await userReportService.addUserReport(userReport);
             return Ok(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> ExtractData()
+        public async Task<ActionResult<UserReport>> ExtractData()
         {
             var result = await userReportService.extractData();
             return Ok(result);
