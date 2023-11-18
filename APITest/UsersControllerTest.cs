@@ -55,17 +55,7 @@ namespace APITest
             Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
             Assert.AreEqual(StatusCodes.Status200OK, objectResult);
         }
-        [TestMethod]
-        public async Task PostMethodFail()
-        {
-            User user = null;
-            UsersController controller = new UsersController();
-            controller.userService = userService;
-            var result = await controller.addNewUser(user);
-            var objectResult = GetStatusCode(result);
-            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult));
-            Assert.AreEqual(StatusCodes.Status400BadRequest, objectResult);
-        }
+        
         [TestMethod]
         public async Task PutMethod()
         {

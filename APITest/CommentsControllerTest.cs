@@ -55,6 +55,18 @@ namespace APITest
             Assert.AreEqual(StatusCodes.Status200OK, objectResult);
         }
         [TestMethod]
+        public async Task PostMethod2()
+        {
+            string postID = "-NVjjKGOBN8fW6wx-c4l";
+            CommentsController controller = new CommentsController();
+            controller.commentService = commentService;
+            var newComment = new Comments("exitant", "", "YWzMcYcArDhHnnFB5JQx9MPy8ep1", postID);
+            var result = await controller.AddComment(postID, newComment);
+            var objectResult = GetStatusCode(result);
+            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
+            Assert.AreEqual(StatusCodes.Status200OK, objectResult);
+        }
+        [TestMethod]
         public async Task DeleteMethod()
         {
             string postID = "-NVeSq29BLnq5kz2LwRh";

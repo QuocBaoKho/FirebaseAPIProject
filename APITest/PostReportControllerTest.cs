@@ -55,7 +55,17 @@ namespace APITest
             Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
             Assert.AreEqual(StatusCodes.Status200OK, objectResult);
         }
-        
+        [TestMethod]
+        public async Task PostMethod2()
+        {
+            var newPostReport = new PostReport("-NX3tiWvU4g753fwTJaM", "He is very rude", "-NWaDpnpzob3Ue68T6Gt", "tRDwJaJRQNfghpKaFsPH6MtoBcW2", "Man");
+            PostReportController controller = new PostReportController();
+            controller.postReportService = postReportService;
+            var result = await controller.AddPostReport(newPostReport);
+            var objectResult = GetStatusCode(result);
+            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
+            Assert.AreEqual(StatusCodes.Status200OK, objectResult);
+        }
 
     }
 }
