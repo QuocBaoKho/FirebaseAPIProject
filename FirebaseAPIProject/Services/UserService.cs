@@ -43,6 +43,7 @@ namespace FirebaseAPIProject.Services
             await client.Child("Users").Child(id).PutAsync(user);
             var data = await extractData();
             var key = (from e in data where e.Value.Id == user.Id select e.Key).FirstOrDefault();
+            if (key is null) { key = ""; }
             return key;
 
         }
@@ -51,6 +52,7 @@ namespace FirebaseAPIProject.Services
             await client.Child("Users").Child(id).DeleteAsync();
             var data = await extractData();
             var key = (from e in data where e.Value.Id == id select e.Key).FirstOrDefault();
+            if(key is null) { key = ""; }
             return key;
         }
     }

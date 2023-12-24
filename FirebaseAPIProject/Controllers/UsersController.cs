@@ -52,7 +52,7 @@ namespace FirebaseAPIProject.Controllers
             try
             {
                 string result = await userService.putNew(id, user);
-                return result == null? NotFound() : Ok();
+                return result == ""? NotFound() : Ok();
             }
             catch
             {
@@ -63,7 +63,7 @@ namespace FirebaseAPIProject.Controllers
         public async Task<ActionResult<string>> DeleteUser(string id)
         {
             string y = await userService.deleteUser(id);
-            return y == null ? Ok(y) : BadRequest();
+            return y == "" ? Ok(y) : BadRequest();
         }
     }
 }

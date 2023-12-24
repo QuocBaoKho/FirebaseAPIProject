@@ -40,7 +40,7 @@ namespace FirebaseAPIProject.Controllers
         public async Task<ActionResult<string>> DeleteComment(string postID, string commentID)
         {
             var key = await commentService.DeleteComment(postID, commentID);
-            return key == null? Ok(key): BadRequest();
+            return key == ""? Ok(key): BadRequest();
         }
     }
 }
