@@ -50,6 +50,7 @@ namespace FirebaseAPIProject.Services
             await client.Child("Posts").Child(id).DeleteAsync();
             var data = await extractData();
             var key = (from post1 in data where post1.Value.Postid == id select post1.Key).FirstOrDefault();
+            key = key is null ? "" : key;
             return key;
         }
     }

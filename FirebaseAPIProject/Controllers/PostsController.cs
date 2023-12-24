@@ -80,7 +80,7 @@ namespace FirebaseAPIProject.Controllers
         public async Task<ActionResult<string>> DeletePost(string id)
         {
             string key = await postService.DeletePost(id);
-            return key == null ? Ok(key) : BadRequest();
+            return key == "" ? Ok(key) : BadRequest();
         }
     }
 }

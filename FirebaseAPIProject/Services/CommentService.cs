@@ -42,6 +42,7 @@ namespace FirebaseAPIProject.Services
             await client.Child("Comments").Child(postId).Child(commentId).DeleteAsync();
             var commentData = await getPost_sComments(postId);
             var key = (from item in commentData where item.Value.CommentId == commentId select item.Key).FirstOrDefault();
+            key = key is null ? "" : key;
             return key;
         }
 
