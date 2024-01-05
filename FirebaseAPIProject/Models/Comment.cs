@@ -1,4 +1,4 @@
-﻿namespace FirebaseAPIProject.Models
+namespace FirebaseAPIProject.Models
 {
     public class Comments
     {
@@ -14,12 +14,15 @@
             Postid = postid;
         }
         public override bool Equals(object? obj)
-
         {
             var postItem = obj as Comments;
             if (postItem == null)
                 return false;
             return this.CommentId.Equals(postItem.CommentId);
+        }
+        public override int GetHashCode()
+        {
+            return this.CommentId.GetHashCode();
         }
     }
 }
