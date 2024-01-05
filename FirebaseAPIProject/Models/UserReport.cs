@@ -15,7 +15,7 @@
             Reporter = reporter;
             Username = username;
         }
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             var userReportItem = obj as UserReport;
             if (userReportItem == null)
