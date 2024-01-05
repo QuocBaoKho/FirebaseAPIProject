@@ -13,7 +13,8 @@
             Publisher = publisher;
             Postid = postid;
         }
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
+
         {
             var postItem = obj as Comments;
             if (postItem == null)
