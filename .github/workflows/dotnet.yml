@@ -29,4 +29,5 @@ jobs:
     - name: Mutation Test
       run: |
         cd APITest
+        dotnet tool restore
         dotnet stryker
