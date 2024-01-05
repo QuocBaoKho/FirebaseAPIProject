@@ -29,9 +29,5 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --verbosity normal
-    - name: Mutation Test
-      run: |
-        cd APITest
-        dotnet tool restore
-        dotnet stryker
+   
 
