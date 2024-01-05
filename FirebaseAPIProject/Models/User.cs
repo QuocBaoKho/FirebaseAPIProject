@@ -35,5 +35,9 @@
                 return false;
             return this.Id.Equals(postItem.Id);
         }
+        public override int GetHashCode()
+{
+    return this.Id.GetHashCode();
+}
     }
 }
