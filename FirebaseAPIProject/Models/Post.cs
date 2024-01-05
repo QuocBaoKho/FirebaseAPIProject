@@ -26,6 +26,10 @@
                 return false;
             return this.Postid.Equals(postItem.Postid);
         }
+        public override int GetHashCode()
+        {
+            return this.Postid.GetHashCode();
+        }
        
     }
 }
