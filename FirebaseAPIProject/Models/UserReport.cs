@@ -22,5 +22,9 @@
                 return false;
             return this.Id.Equals(userReportItem.Id);
         }
+        public override int GetHashCode()
+{
+    return this.Id.GetHashCode();
+}
     }
 }
