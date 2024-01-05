@@ -28,7 +28,7 @@
             Token = token;
             Website = website;
         }
-        public override bool Equals(object obj)
+       public override bool Equals(object? obj)
         {
             var postItem = obj as User;
             if (postItem == null)
