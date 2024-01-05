@@ -15,7 +15,7 @@ jobs:
     runs-on: [ubuntu-latest, windows-latest]
     strategy:
       matrix:
-        dotnet-version: [5.0.x, 6.0.x, 7.0.x]
+        dotnet-version: ["5.0.x", "6.0.x", "7.0.x"]
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -33,3 +33,4 @@ jobs:
         cd APITest
         dotnet tool restore
         dotnet stryker
+/
