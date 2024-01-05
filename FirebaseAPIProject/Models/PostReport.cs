@@ -23,5 +23,9 @@
                 return false;
             return this.Id.Equals(postReportItem.Id);
         }
+        public override int GetHashCode()
+{
+    return this.Id.GetHashCode();
+}
     }
 }
