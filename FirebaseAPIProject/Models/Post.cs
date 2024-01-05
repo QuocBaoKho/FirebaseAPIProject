@@ -19,7 +19,7 @@
             Postvid = postvid;
             Publisher = publisher;
         }
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             var postItem = obj as Post;
             if (postItem == null)
