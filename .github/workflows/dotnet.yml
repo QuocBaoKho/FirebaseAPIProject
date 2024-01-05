@@ -27,5 +27,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Mutation Test
-      run: dotnet stryker --solution FirebaseAPIProject.sln --test-project ./APITest/APITest.csproj --project ./FirebaseAPIProject.csproj
-
+      run: |
+        cd APITest
+        dotnet stryker
